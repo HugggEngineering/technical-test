@@ -1,0 +1,49 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+    DirectoryIndex index.html index.php
+    RewriteEngine On
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)/$ https://api.huggg.me/$1 [L,R=301]
+
+    # Weirdness for Apache auth headers...
+    RewriteCond %{HTTP:Authorization} ^(.*)
+    RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+
+    # REWRITE LAUNCH URLS
+    # single huggg
+    RewriteCond %{HTTP_HOST} ^launch.huggg.me$ [NC]
+    RewriteRule ^redeem/(.*)$ https://api.huggg.me/api/v2/huggg/redeem/$1 [R=301,L]
+    # super-url
+    RewriteCond %{HTTP_HOST} ^launch.huggg.me$ [NC]
+    RewriteRule ^super/(.*)$ https://api.huggg.me/api/v2/huggg/super/$1 [R=301,L]
+    # legacy single huggg
+    # Don't redirect "apple-app-site-association" pages
+    RewriteCond %{REQUEST_URI} !^/apple-app-site-association$ [NC]
+    RewriteCond %{HTTP_HOST} ^launch.huggg.me$ [NC]
+    RewriteRule ^(.*)$ https://api.huggg.me/api/v2/huggg/redeem/$1 [R=301,L]
+
+
+    # REWRITE STAGING LAUNCH URLS
+    # single huggg
+    RewriteCond %{HTTP_HOST} ^stage-launch.api.huggg.me$ [NC]
+    RewriteRule ^redeem/(.*)$ https://stage.api.huggg.me/api/v2/huggg/redeem/$1 [R=301,L]
+    # super-url
+    RewriteCond %{HTTP_HOST} ^stage-launch.api.huggg.me$ [NC]
+    RewriteRule ^super/(.*)$ https://stage.api.huggg.me/api/v2/huggg/super/$1 [R=301,L]
+    # legacy single huggg and single-word actions
+    # Don't redirect "apple-app-site-association" pages
+    RewriteCond %{REQUEST_URI} !^/apple-app-site-association$ [NC]
+    RewriteCond %{HTTP_HOST} ^stage-launch.api.huggg.me$ [NC]
+    RewriteRule ^(.*)$ https://stage.api.huggg.me/api/v2/huggg/redeem/$1 [R=301,L]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+</IfModule>

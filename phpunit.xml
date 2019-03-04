@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="bootstrap/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutOutputDuringTests="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="Huggg Test Suite">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">app/</directory>
+        </whitelist>
+    </filter>
+    <php>
+        <env name="APP_URL" value="http://api.dev.huggg.me"/>
+        <env name="APP_IMAGE_URL" value="https://test.cdn.huggg.me"/>
+        <env name="APP_ENV" value="testing"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value="huggg_test"/>
+        <env name="API_STANDARDS_TREE" value="x" />
+        <env name="API_PREFIX" value="api" />
+        <env name="API_VERSION" value="v1" />
+        <env name="API_SUBTYPE" value="huggg" />
+        <env name="LAUNCH_URL" value="https://go.huggg.me/" />
+        <ini name="memory_limit" value="512M" />
+    </php>
+</phpunit>
